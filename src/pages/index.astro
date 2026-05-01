@@ -1,11 +1,371 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import fs from "node:fs";
+import path from "node:path";
+import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import FeatureCard from "../components/FeatureCard.astro";
+import appIcon from "../assets/app-icon.png";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const repoUrl = "https://github.com/pluk-inc/md-preview.app";
+const releasesUrl = `${repoUrl}/releases`;
+
+const publicDir = path.resolve("./public");
+const shot = (rel: string) =>
+  fs.existsSync(path.join(publicDir, rel)) ? `/${rel}` : undefined;
+
+const heroShot = shot("screenshots/hero@2x.png");
+const feelsNativeShot = shot("screenshots/feels-native@2x.png");
+const quickLookShot = shot("screenshots/quicklook@2x.png");
+const outlineShot = shot("screenshots/outline@2x.png");
+const openWithShot = shot("screenshots/open-with@2x.png");
+
+const editorTiles = [
+  { name: "VS Code", bg: "#0078d4", letter: "V" },
+  { name: "Cursor", bg: "#000000", letter: "C" },
+  { name: "Zed", bg: "#7c5cff", letter: "Z" },
+  { name: "Sublime", bg: "#ff9800", letter: "S" },
+  { name: "Nova", bg: "#1e3a8a", letter: "N" },
+  { name: "TextMate", bg: "#3b3b3b", letter: "T" },
+  { name: "BBEdit", bg: "#dc2626", letter: "B" },
+  { name: "Xcode", bg: "#147efb", letter: "X" },
+  { name: "Vim", bg: "#019733", letter: "V" },
+];
 ---
 
 <Layout>
-	<Welcome />
+  {/* ───────── Global nav ───────── */}
+  <header id="site-header" class="sticky top-0 z-50 site-nav">
+    <div class="mx-auto max-w-[1200px] px-6">
+      <nav class="flex items-center justify-between h-11">
+        <a href="/" class="t-caption font-semibold text-[var(--color-ink)]">Markdown Preview</a>
+        <div class="flex items-center gap-6 t-caption text-[var(--color-ink)]">
+          <a href="#features" class="hidden sm:inline opacity-80 hover:opacity-100 transition-opacity">Features</a>
+          <a href={repoUrl} class="opacity-80 hover:opacity-100 transition-opacity">GitHub</a>
+          <a href={releasesUrl} class="btn-pill btn-pill--sm">Download</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  {/* ───────── Hero ───────── */}
+  <section class="bg-[var(--color-fog)]">
+    <div class="mx-auto max-w-[1200px] px-6 pt-14 sm:pt-[82px] pb-12 sm:pb-20 text-center">
+      <Image
+        src={appIcon}
+        alt="Markdown Preview app icon"
+        class="mx-auto mb-7 sm:mb-9 block app-icon"
+        widths={[96, 128, 192, 256]}
+        sizes="(max-width: 640px) 96px, 128px"
+        loading="eager"
+      />
+      <p class="hero-eyebrow text-[var(--color-ink)]">Markdown Preview</p>
+      <h1 class="hero-title sm:-mt-1">
+        <span class="block">Read beautifully.</span>
+        <span class="block">Built natively.</span>
+      </h1>
+    </div>
+
+    {heroShot && (
+      <div class="mx-auto max-w-[1100px] pt-10 px-6 pb-20 sm:pb-[120px]">
+        <img
+          src={heroShot}
+          alt="Markdown Preview rendering a README on a MacBook Pro"
+          class="block w-full h-auto"
+          width="1216"
+          height="735"
+          decoding="async"
+          loading="eager"
+        />
+      </div>
+    )}
+  </section>
+
+  {/* ───────── Features ───────── */}
+  <section id="features" class="bg-[var(--color-snow)]">
+    <div class="mx-auto max-w-[1200px] px-6 pt-20 sm:pt-[120px] pb-16 sm:pb-20">
+      <h2 class="section-title text-[var(--color-ink)]">
+        Designed to disappear.<br class="hidden sm:inline"/> Built to feel native.
+      </h2>
+    </div>
+
+    {/* Spacer divs at the start/end + matching scroll-padding align card edges
+        with the title's container at every viewport size. */}
+    <div id="features-scroller" class="features-scroller pb-12">
+      <div class="flex gap-5 sm:gap-6">
+        <div class="features-spacer" aria-hidden="true"></div>
+
+        <FeatureCard
+          src={feelsNativeShot}
+          alt="Markdown Preview rendering a Markdown document natively on macOS"
+          lead="Feels native."
+        >
+          Markdown Preview reads <span class="font-mono">.md</span> the way Quick Look reads PDF — a 1:1 macOS renderer built on AppKit and WKWebView, parsed with Apple's Swift Markdown. No Electron, no embedded browser, no telemetry. Install it once and forget it's there.
+
+          <div slot="fallback" class="card-mock-wrap">
+            <div class="card-mock-paper">
+              <h4 class="card-mock-title">On reading.</h4>
+              <p class="t-caption mt-1 text-[var(--color-graphite)]">An essay.</p>
+              <p class="t-body-sm mt-4 text-[var(--color-slate)] leading-[1.6]">
+                Reading is a quiet act. The text should be present, the chrome absent. Margins generous, leading patient.
+              </p>
+              <p class="t-body-sm mt-3 italic text-[var(--color-slate)] leading-[1.6] border-l-2 border-[var(--color-silver-mist)] pl-3">
+                A small inflection where the writer pauses to think.
+              </p>
+            </div>
+          </div>
+        </FeatureCard>
+
+        <FeatureCard
+          src={outlineShot}
+          alt="Markdown Preview document outline sidebar showing every heading as a navigable list"
+          lead="Find your place."
+        >
+          Every heading becomes a navigable table of contents. Click to jump between sections, or scroll naturally — the active heading follows you down the page.
+
+          <div slot="fallback" class="card-mock-wrap">
+            <div class="card-mock-paper card-mock-paper--narrow">
+              <p class="text-[10px] tracking-[0.16em] uppercase font-semibold text-[var(--color-graphite)] mb-3">Outline</p>
+              <ul class="space-y-1 t-body-sm">
+                <li class="px-3 py-1.5 bg-[var(--color-silver-mist)] font-medium text-[var(--color-ink)] rounded-md">Introduction</li>
+                <li class="px-3 py-1.5 text-[var(--color-slate)]">Architecture</li>
+                <li class="pl-7 pr-3 py-1.5 text-[var(--color-graphite)]">App lifecycle</li>
+                <li class="pl-7 pr-3 py-1.5 text-[var(--color-graphite)]">WKWebView pipeline</li>
+                <li class="pl-7 pr-3 py-1.5 text-[var(--color-graphite)]">Markdown parsing</li>
+                <li class="px-3 py-1.5 text-[var(--color-slate)]">Quick Look extension</li>
+                <li class="px-3 py-1.5 text-[var(--color-slate)]">Release process</li>
+              </ul>
+            </div>
+          </div>
+        </FeatureCard>
+
+        <FeatureCard
+          src={quickLookShot}
+          alt="Quick Look preview of a Markdown file in Finder"
+          lead="Just press space."
+          wide
+        >
+          On any <span class="font-mono">.md</span> file in Finder, the bundled Quick Look extension renders the document inline. Spotlight previews use the same renderer.
+
+          <div slot="fallback" class="card-mock-wrap card-mock-wrap--column">
+            <kbd class="kbd-key">Space</kbd>
+            <p class="t-body-sm text-[var(--color-graphite)]">Preview in Finder.</p>
+          </div>
+        </FeatureCard>
+
+        <FeatureCard
+          src={openWithShot}
+          alt="Open With picker showing Typora, Xcode, Cursor, Zed, TextEdit and Numbers as Markdown editors"
+          align="right-top"
+          lead="Edit when you're ready."
+        >
+          When you want to write, Markdown Preview hands off to your editor of choice — VS Code, Cursor, Zed, Sublime, or any other Markdown-aware app. The picker remembers your last choice.
+
+          <div slot="fallback" class="card-mock-wrap">
+            <div class="grid grid-cols-3 gap-4 max-w-[300px]">
+              {editorTiles.map((app) => (
+                <div class="editor-tile" style={`background:${app.bg}`} title={app.name}>{app.letter}</div>
+              ))}
+            </div>
+          </div>
+        </FeatureCard>
+
+        <div class="features-spacer" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    {/* Pagination arrows */}
+    <div class="mx-auto max-w-[1200px] px-6 pb-20 sm:pb-[120px] flex justify-end gap-2">
+      <button id="features-prev" type="button" aria-label="Previous" class="arrow-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
+      </button>
+      <button id="features-next" type="button" aria-label="Next" class="arrow-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+      </button>
+    </div>
+  </section>
+
+  {/* ───────── Closing call ───────── */}
+  <section class="bg-[var(--color-fog)]">
+    <div class="mx-auto max-w-[820px] px-6 py-20 sm:py-[120px] text-center">
+      <h2 class="closing-title text-[var(--color-ink)]">
+        Free. Open source.<br/>
+        <span class="text-[var(--color-graphite)]">Built for the Mac.</span>
+      </h2>
+      <div class="mt-10 flex items-center justify-center gap-5 flex-wrap">
+        <a href={releasesUrl} class="btn-pill">Download for macOS</a>
+        <a href={repoUrl} class="btn-ghost">View on GitHub <span aria-hidden="true">›</span></a>
+      </div>
+      <p class="mt-6 t-caption text-[var(--color-graphite)]">Requires macOS 15 or later</p>
+    </div>
+  </section>
+
+  {/* ───────── Footer ───────── */}
+  <footer class="bg-[var(--color-snow)] site-footer">
+    <div class="mx-auto max-w-[1200px] px-6 py-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 t-caption text-[var(--color-graphite)]">
+      <p>© {new Date().getFullYear()} Pluk.</p>
+      <div class="flex items-center gap-7">
+        <a href={repoUrl} class="hover:text-[var(--color-ink)] transition-colors">GitHub</a>
+        <a href={releasesUrl} class="hover:text-[var(--color-ink)] transition-colors">Releases</a>
+        <a href={`${repoUrl}/issues`} class="hover:text-[var(--color-ink)] transition-colors">Issues</a>
+      </div>
+    </div>
+  </footer>
 </Layout>
+
+<style>
+  /* Frosted nav */
+  .site-nav {
+    background-color: rgba(245, 245, 247, 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+  }
+
+  /* App icon — fluid sizing + soft drop shadow */
+  .app-icon {
+    width: clamp(96px, 11vw, 128px);
+    height: auto;
+    filter:
+      drop-shadow(0 14px 28px rgba(0, 0, 0, 0.18))
+      drop-shadow(0 4px 10px rgba(0, 0, 0, 0.10));
+  }
+
+  /* Display typography — fluid via clamp() */
+  .hero-eyebrow {
+    font-family: var(--font-sf-display);
+    font-weight: 600;
+    font-size: clamp(22px, 3.2vw, 32px);
+    line-height: 1.125;
+    letter-spacing: 0.004em;
+  }
+  .hero-title {
+    color: #000;
+    font-family: var(--font-sf-display);
+    font-weight: 600;
+    font-size: clamp(40px, 7.5vw, 72px);
+    line-height: 1.05556;
+    letter-spacing: -0.012em;
+  }
+  .section-title {
+    font-family: var(--font-sf-display);
+    font-weight: 600;
+    font-size: clamp(28px, 4.4vw, 40px);
+    line-height: 1.17;
+    letter-spacing: -0.6px;
+    max-width: 820px;
+  }
+  .closing-title {
+    font-family: var(--font-sf-display);
+    font-weight: 600;
+    font-size: clamp(36px, 6.5vw, 56px);
+    line-height: 1.07;
+    letter-spacing: -0.9px;
+  }
+
+  /* Small variant of the primary pill (used in the nav) */
+  .btn-pill--sm { font-size: 12px; padding: 4px 12px; }
+
+  /* Features carousel container */
+  .features-scroller {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    --gutter: max(24px, calc((100vw - 1200px) / 2 + 24px));
+    scroll-padding-inline-start: var(--gutter);
+    scroll-padding-inline-end: var(--gutter);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .features-scroller::-webkit-scrollbar { display: none; }
+  .features-spacer { flex-shrink: 0; width: var(--gutter); }
+
+  /* Card fallback mocks (only render when a screenshot is missing) */
+  .card-mock-wrap {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+  }
+  .card-mock-wrap--column { flex-direction: column; gap: 20px; }
+
+  .card-mock-paper {
+    background: var(--color-snow);
+    width: 100%;
+    max-width: 360px;
+    aspect-ratio: 5 / 4;
+    padding: 28px;
+    overflow: hidden;
+    border-radius: 14px;
+  }
+  .card-mock-paper--narrow {
+    max-width: 300px;
+    aspect-ratio: auto;
+    padding: 24px;
+    border-radius: 12px;
+  }
+  .card-mock-title {
+    font-family: var(--font-sf-display);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+    color: var(--color-ink);
+  }
+  .kbd-key {
+    color: var(--color-ink);
+    background: var(--color-snow);
+    font-family: var(--font-sf-text);
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 1;
+    padding: 22px 38px;
+    border-radius: 14px;
+    border: 1px solid var(--color-silver-mist);
+    letter-spacing: -0.01em;
+  }
+  .editor-tile {
+    width: 68px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border-radius: 16px;
+    font-family: var(--font-sf-display);
+    font-weight: 700;
+    font-size: 28px;
+  }
+
+  /* Pagination buttons */
+  .arrow-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 999px;
+    background: var(--color-silver-mist);
+    color: var(--color-ink);
+    transition: background-color 0.18s ease;
+  }
+  .arrow-btn:hover { background: #d8d8dc; }
+
+  /* Footer hairline */
+  .site-footer { border-top: 1px solid var(--color-silver-mist); }
+</style>
+
+<script is:inline>
+  (() => {
+    const scroller = document.getElementById('features-scroller');
+    const prev = document.getElementById('features-prev');
+    const next = document.getElementById('features-next');
+    if (!scroller || !prev || !next) return;
+    const step = () => {
+      const card = scroller.querySelector('article');
+      return card ? card.getBoundingClientRect().width + 24 : 480;
+    };
+    prev.addEventListener('click', () => scroller.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next.addEventListener('click', () => scroller.scrollBy({ left: step(), behavior: 'smooth' }));
+  })();
+</script>

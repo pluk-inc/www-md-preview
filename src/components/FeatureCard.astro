@@ -1,0 +1,130 @@
+---
+/**
+ * Card in the homepage features carousel.
+ *
+ * Visual area:
+ *   - Default: 5:4 aspect (matches sibling cards)
+ *   - `wide`:  fixed height that mirrors the 5:4 cards but on a wider article
+ *
+ * Pass a screenshot via `src` for the real image, or use the `fallback`
+ * named slot to render a hand-drawn mock for missing-asset states.
+ *
+ * The bold lead phrase is the prop; the rest of the descriptive text
+ * lives in the default slot.
+ */
+interface Props {
+  src?: string;
+  alt: string;
+  align?: "left-top" | "right-top" | "center-top" | "left-center";
+  wide?: boolean;
+  lead: string;
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  align = "left-top",
+  wide = false,
+  lead,
+  class: className = "",
+} = Astro.props;
+---
+
+<article
+  class:list={[
+    "feature-card flex-shrink-0",
+    wide ? "feature-card--wide" : "feature-card--default",
+    className,
+  ]}
+>
+  <div class:list={["card-frame", wide && "card-frame--fixed-height"]}>
+    {
+      src ? (
+        <img
+          src={src}
+          alt={alt}
+          class:list={["card-img", `card-img--${align}`]}
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <slot name="fallback" />
+      )
+    }
+  </div>
+  <p class="card-caption">
+    <span class="card-lead">{lead}</span>
+    <slot />
+  </p>
+</article>
+
+<style>
+  /* Card width — modifier classes keep the responsive ladder
+     declarative instead of leaking responsive Tailwind into every call site. */
+  .feature-card {
+    scroll-snap-align: start;
+  }
+  .feature-card--default {
+    width: 78vw;
+  }
+  .feature-card--wide {
+    width: 82vw;
+  }
+  @media (min-width: 640px) {
+    .feature-card--default { width: 420px; }
+    .feature-card--wide { width: 480px; }
+  }
+  @media (min-width: 1024px) {
+    .feature-card--default { width: 480px; }
+    .feature-card--wide { width: 540px; }
+  }
+
+  /* Visual frame */
+  .card-frame {
+    background: var(--color-fog);
+    border-radius: 28px;
+    overflow: hidden;
+    aspect-ratio: 5 / 4;
+  }
+  /* When `wide`, drop the aspect ratio and pin a fixed height that
+     matches the default (non-wide) card's resolved height at each
+     breakpoint, so siblings line up at the baseline. */
+  .card-frame--fixed-height {
+    aspect-ratio: auto;
+    height: 62.4vw;
+  }
+  @media (min-width: 640px) {
+    .card-frame--fixed-height { height: 336px; }
+  }
+  @media (min-width: 1024px) {
+    .card-frame--fixed-height { height: 384px; }
+  }
+
+  /* Image alignments inside the frame */
+  .card-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .card-img--left-top   { object-position: left top; }
+  .card-img--right-top  { object-position: right top; }
+  .card-img--center-top { object-position: center top; }
+  .card-img--left-center { object-position: left center; }
+
+  /* Caption: bold lead + descriptive text in one paragraph */
+  .card-caption {
+    margin-top: 24px;
+    font-family: var(--font-sf-text);
+    font-size: 17px;
+    line-height: 1.5;
+    letter-spacing: -0.1px;
+    color: var(--color-graphite);
+  }
+  .card-lead {
+    color: var(--color-ink);
+    font-weight: 600;
+    margin-right: 4px;
+  }
+</style>

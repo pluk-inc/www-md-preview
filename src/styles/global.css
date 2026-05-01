@@ -1,0 +1,221 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Apple "MacBook Neo" tokens ─────────────────────────────────── */
+  --color-ink: #1d1d1f;
+  --color-graphite: #707070;
+  --color-slate: #474747;
+  --color-ash: #333333;
+  --color-fog: #f5f5f7;
+  --color-snow: #ffffff;
+  --color-obsidian: #000000;
+  --color-silver-mist: #e8e8ed;
+  --color-azure: #0071e3;
+  --color-cobalt-link: #0066cc;
+  --color-caution: #b64400;
+
+  /* Typography */
+  --font-sf-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui,
+    "Segoe UI", Roboto, sans-serif;
+  --font-sf-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui,
+    "Segoe UI", Roboto, sans-serif;
+  --font-sans: var(--font-sf-text);
+  --font-mono: ui-monospace, "SF Mono", "Menlo", "Monaco", monospace;
+
+  /* Type scale — exact px values per spec */
+  --text-caption: 12px;
+  --text-body-sm: 14px;
+  --text-body: 17px;
+  --text-subheading: 20px;
+  --text-heading-sm: 24px;
+  --text-heading: 40px;
+  --text-heading-lg: 56px;
+  --text-display: 96px;
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-28: 28px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-44: 44px;
+  --spacing-48: 48px;
+  --spacing-52: 52px;
+  --spacing-76: 76px;
+  --spacing-80: 80px;
+  --spacing-120: 120px;
+  --spacing-144: 144px;
+
+  /* Radius */
+  --radius-cards: 28px;
+  --radius-buttons: 999px;
+  --radius-small-button: 10px;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sf-text);
+  color: var(--color-ink);
+  background: var(--color-fog);
+  letter-spacing: -0.012em;
+}
+
+/* ── Type styles — exact px tracking per spec ─────────────────────── */
+
+.t-display {
+  font-family: var(--font-sf-display);
+  font-weight: 700;
+  font-size: 96px;
+  line-height: 1.04;
+  letter-spacing: -2.11px;
+}
+
+.t-heading-lg {
+  font-family: var(--font-sf-display);
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 1.07;
+  letter-spacing: -0.9px;
+}
+
+.t-heading {
+  font-family: var(--font-sf-display);
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.17;
+  letter-spacing: -0.6px;
+}
+
+.t-heading-sm {
+  font-family: var(--font-sf-display);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.29;
+  letter-spacing: -0.36px;
+}
+
+.t-subheading {
+  font-family: var(--font-sf-text);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.4;
+  letter-spacing: -0.2px;
+}
+
+.t-body {
+  font-family: var(--font-sf-text);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.1px;
+}
+
+.t-body-sm {
+  font-family: var(--font-sf-text);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: -0.04px;
+}
+
+.t-caption {
+  font-family: var(--font-sf-text);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.33;
+  letter-spacing: -0.26px;
+}
+
+/* Eyebrow — small label above headlines */
+.t-eyebrow {
+  font-family: var(--font-sf-text);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.29;
+  letter-spacing: -0.36px;
+  color: var(--color-ink);
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────
+   Rationed Azure pill — only on Buy/Download. Secondary actions use
+   the ghost text link style. */
+
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--color-ink);
+  color: var(--color-snow);
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-family: var(--font-sf-text);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.1px;
+  transition: background-color 0.18s ease;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.btn-pill:hover {
+  background: #000;
+}
+
+/* Ghost text — used as the only "secondary" action next to the pill */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  color: var(--color-cobalt-link);
+  border: none;
+  padding: 0;
+  font-family: var(--font-sf-text);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.1px;
+  text-decoration: none;
+}
+.btn-ghost:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Inline link */
+.link {
+  color: var(--color-cobalt-link);
+  text-decoration: none;
+}
+.link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Cards (28px radius, no shadow) ─────────────────────────────── */
+.card {
+  border-radius: 28px;
+  overflow: hidden;
+  background: var(--color-snow);
+}
+.card-fog {
+  background: var(--color-fog);
+}
+.card-dark {
+  background: var(--color-obsidian);
+  color: var(--color-snow);
+}
+
+::selection {
+  background: rgba(0, 113, 227, 0.18);
+}
