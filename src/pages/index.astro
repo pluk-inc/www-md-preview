@@ -7,7 +7,11 @@ import FeatureCard from "../components/FeatureCard.astro";
 import appIcon from "../assets/app-icon.png";
 
 const repoUrl = "https://github.com/pluk-inc/md-preview.app";
+// "Releases" footer link goes to the full listing.
 const releasesUrl = `${repoUrl}/releases`;
+// All Download CTAs go to /releases/latest — GitHub redirects to whichever
+// release is currently marked latest, so the button never points at a stale tag.
+const downloadUrl = `${repoUrl}/releases/latest`;
 
 const publicDir = path.resolve("./public");
 const shot = (rel: string) =>
@@ -41,7 +45,7 @@ const editorTiles = [
         <div class="flex items-center gap-6 t-caption text-[var(--color-ink)]">
           <a href="#features" class="hidden sm:inline opacity-80 hover:opacity-100 transition-opacity">Features</a>
           <a href={repoUrl} class="opacity-80 hover:opacity-100 transition-opacity">GitHub</a>
-          <a href={releasesUrl} class="btn-pill btn-pill--sm">Download</a>
+          <a href={downloadUrl} class="btn-pill btn-pill--sm">Download</a>
         </div>
       </nav>
     </div>
@@ -99,7 +103,7 @@ const editorTiles = [
           alt="Markdown Preview rendering a Markdown document natively on macOS"
           lead="Feels native."
         >
-          Markdown Preview reads <span class="font-mono">.md</span> the way Quick Look reads PDF — a 1:1 macOS renderer built on AppKit and WKWebView, parsed with Apple's Swift Markdown. No Electron, no embedded browser, no telemetry. Install it once and forget it's there.
+          Designed for the Mac with the polish of a system app. It opens instantly, needs no account or setup, and respects every shortcut you already know. Install it once and forget it's there.
 
           <div slot="fallback" class="card-mock-wrap">
             <div class="card-mock-paper">
@@ -192,7 +196,7 @@ const editorTiles = [
         <span class="text-[var(--color-graphite)]">Built for the Mac.</span>
       </h2>
       <div class="mt-10 flex items-center justify-center gap-5 flex-wrap">
-        <a href={releasesUrl} class="btn-pill">Download for macOS</a>
+        <a href={downloadUrl} class="btn-pill">Download for macOS</a>
         <a href={repoUrl} class="btn-ghost">View on GitHub <span aria-hidden="true">›</span></a>
       </div>
       <p class="mt-6 t-caption text-[var(--color-graphite)]">Requires macOS 15 or later</p>
