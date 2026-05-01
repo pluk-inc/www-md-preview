@@ -1,0 +1,14 @@
+/**
+ * Cloudflare Workers static-asset config.
+ * `wrangler versions upload` reads this file to find the built site.
+ * No Worker script — this is a pure static deploy of the Astro `dist/` output.
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "www-md-preview",
+  "compatibility_date": "2026-05-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
