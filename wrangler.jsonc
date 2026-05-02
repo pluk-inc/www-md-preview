@@ -5,7 +5,7 @@
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "www-md-preview",
+  "name": "web-md-preview",
   "compatibility_date": "2026-05-01",
   "assets": {
     "directory": "./dist",
