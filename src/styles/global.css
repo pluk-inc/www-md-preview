@@ -171,6 +171,12 @@ body {
 .btn-pill:hover {
   background: #000;
 }
+@media (max-width: 640px) {
+  .btn-pill {
+    font-size: 15px;
+    padding: 7px 14px;
+  }
+}
 
 /* Ghost text — used as the only "secondary" action next to the pill */
 .btn-ghost {

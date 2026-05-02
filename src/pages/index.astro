@@ -54,14 +54,18 @@ const editorTiles = [
 
   {/* ───────── Hero ───────── */}
   <section class="bg-[var(--color-fog)]">
-    <div class="mx-auto max-w-[1200px] px-6 pt-14 sm:pt-[82px] pb-12 sm:pb-20 text-center">
+    <div class="mx-auto max-w-[1200px] px-6 pt-24 sm:pt-[82px] pb-20 sm:pb-20 text-center">
       <Image
         src={appIcon}
         alt="Markdown Preview app icon"
         class="mx-auto mb-7 sm:mb-9 block app-icon"
+        width={128}
+        height={128}
         widths={[96, 128, 192, 256]}
         sizes="(max-width: 640px) 96px, 128px"
         loading="eager"
+        decoding="sync"
+        fetchpriority="high"
       />
       <p class="hero-eyebrow text-[var(--color-ink)]">Markdown Preview</p>
       <h1 class="hero-title sm:-mt-1">
@@ -71,7 +75,7 @@ const editorTiles = [
     </div>
 
     {heroShot && (
-      <div class="mx-auto max-w-[1100px] pt-10 px-6 pb-20 sm:pb-[120px]">
+      <div class="mx-auto max-w-[1100px] pt-12 sm:pt-10 px-6 pb-32 sm:pb-[120px]">
         <img
           src={heroShot}
           alt="Markdown Preview rendering a README on a MacBook Pro"
@@ -87,7 +91,7 @@ const editorTiles = [
 
   {/* ───────── Features ───────── */}
   <section id="features" class="bg-[var(--color-snow)]">
-    <div class="mx-auto max-w-[1200px] px-6 pt-20 sm:pt-[120px] pb-16 sm:pb-20">
+    <div class="mx-auto max-w-[1200px] px-6 pt-32 sm:pt-[120px] pb-20 sm:pb-20">
       <h2 class="section-title text-[var(--color-ink)]">
         Designed to disappear.<br class="hidden sm:inline"/> Built to feel native.
       </h2>
@@ -179,7 +183,7 @@ const editorTiles = [
     </div>
 
     {/* Pagination arrows */}
-    <div class="mx-auto max-w-[1200px] px-6 pb-20 sm:pb-[120px] flex justify-end gap-2">
+    <div class="mx-auto max-w-[1200px] px-6 pb-32 sm:pb-[120px] flex justify-end gap-2">
       <button id="features-prev" type="button" aria-label="Previous" class="arrow-btn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
       </button>
@@ -191,24 +195,24 @@ const editorTiles = [
 
   {/* ───────── Closing call ───────── */}
   <section class="bg-[var(--color-fog)]">
-    <div class="mx-auto max-w-[820px] px-6 py-20 sm:py-[120px] text-center">
+    <div class="mx-auto max-w-[820px] px-6 py-32 sm:py-[120px] text-center">
       <h2 class="closing-title text-[var(--color-ink)]">
         Free. Open source.<br/>
         <span class="text-[var(--color-graphite)]">Built for the Mac.</span>
       </h2>
-      <div class="mt-10 flex items-center justify-center gap-5 flex-wrap">
+      <div class="mt-12 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-2">
         <a href={downloadUrl} class="btn-pill">Download for macOS</a>
         <a href={repoUrl} class="btn-ghost">View on GitHub <span aria-hidden="true">›</span></a>
       </div>
-      <p class="mt-6 t-caption text-[var(--color-graphite)]">Requires macOS 15 or later</p>
+      <p class="mt-8 sm:mt-6 t-caption text-[var(--color-graphite)]">Requires macOS 15 or later</p>
     </div>
   </section>
 
   {/* ───────── Footer ───────── */}
   <footer class="bg-[var(--color-snow)] site-footer">
-    <div class="mx-auto max-w-[1200px] px-6 py-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 t-caption text-[var(--color-graphite)]">
+    <div class="mx-auto max-w-[1200px] px-6 py-10 flex flex-row items-center justify-between gap-4 t-caption text-[var(--color-graphite)]">
       <p>© {new Date().getFullYear()} Pluk.</p>
-      <div class="flex items-center gap-7">
+      <div class="flex items-center gap-5 sm:gap-7">
         <a href={repoUrl} class="hover:text-[var(--color-ink)] transition-colors">GitHub</a>
         <a href={releasesUrl} class="hover:text-[var(--color-ink)] transition-colors">Releases</a>
         <a href={`${repoUrl}/issues`} class="hover:text-[var(--color-ink)] transition-colors">Issues</a>
