@@ -46,7 +46,7 @@ const editorTiles = [
         <div class="flex items-center gap-6 t-caption text-[var(--color-ink)]">
           <a href="#features" class="hidden sm:inline opacity-80 hover:opacity-100 transition-opacity">Features</a>
           <a href={repoUrl} class="opacity-80 hover:opacity-100 transition-opacity">GitHub</a>
-          <a href={downloadUrl} class="btn-pill btn-pill--sm">Download</a>
+          <a href={downloadUrl} class="btn-pill btn-pill--sm" data-track="download" data-track-location="nav">Download</a>
         </div>
       </nav>
     </div>
@@ -201,7 +201,7 @@ const editorTiles = [
         <span class="text-[var(--color-graphite)]">Built for the Mac.</span>
       </h2>
       <div class="mt-12 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-5">
-        <a href={downloadUrl} class="btn-pill">Download for macOS</a>
+        <a href={downloadUrl} class="btn-pill" data-track="download" data-track-location="closing-cta">Download for macOS</a>
         <a href={repoUrl} class="btn-ghost">View on GitHub <span aria-hidden="true">›</span></a>
       </div>
       <p class="mt-8 sm:mt-6 t-caption text-[var(--color-graphite)]">Requires macOS 15 or later</p>
@@ -377,4 +377,14 @@ const editorTiles = [
     prev.addEventListener('click', () => scroller.scrollBy({ left: -step(), behavior: 'smooth' }));
     next.addEventListener('click', () => scroller.scrollBy({ left: step(), behavior: 'smooth' }));
   })();
+
+  document.addEventListener('click', (event) => {
+    const link = event.target.closest('a[data-track="download"]');
+    if (!link) return;
+    if (typeof window.posthog === 'undefined') return;
+    window.posthog.capture('download_clicked', {
+      location: link.dataset.trackLocation || 'unknown',
+      url: link.href,
+    });
+  });
 </script>
