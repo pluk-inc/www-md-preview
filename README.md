@@ -1,46 +1,52 @@
-# Astro Starter Kit: Basics
+# Markdown Preview
 
-```sh
-pnpm create astro@latest -- --template basics
-```
+Landing page for [Markdown Preview](https://github.com/pluk-inc/md-preview.app), a native macOS app for reading Markdown files. Lives at [md.markdown.app](https://md.markdown.app).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Built with Astro + Tailwind, deployed as static assets to Cloudflare Workers.
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## Project structure
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
+.
+├── public/                # Favicons, screenshots, static assets
+├── src/
+│   ├── assets/            # Images processed by Astro (app icon, etc.)
+│   ├── components/        # FeatureCard.astro
+│   ├── layouts/           # Layout.astro — <head>, analytics, fonts
+│   ├── pages/             # index.astro — the landing page
+│   └── styles/            # global.css — design tokens, typography
+├── astro.config.mjs
+├── wrangler.jsonc         # Cloudflare static-asset deploy config
 └── package.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+The page expects screenshots under `public/screenshots/` (e.g. `hero@2x.png`, `feels-native@2x.png`). Missing images fall back to inline mocks rendered in `index.astro`, so the page stays presentable without them.
 
-## 🧞 Commands
+## Commands
 
-All commands are run from the root of the project, from a terminal:
+Requires Node ≥ 22.12 and `pnpm`.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+| Command         | Action                                       |
+| :-------------- | :------------------------------------------- |
+| `pnpm install`  | Install dependencies                         |
+| `pnpm dev`      | Start dev server at `localhost:4321`         |
+| `pnpm build`    | Build the static site to `./dist/`           |
+| `pnpm preview`  | Preview the production build locally         |
+| `pnpm astro …`  | Run the Astro CLI                            |
 
-## 👀 Want to learn more?
+## Deployment
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The site deploys to Cloudflare Workers as a pure static asset bundle — there is no Worker script. `wrangler.jsonc` points the `assets` directory at `./dist`, so the flow is:
+
+```sh
+pnpm build
+pnpm dlx wrangler versions upload    # or `wrangler deploy`
+```
+
+## Analytics
+
+PostHog is loaded in `src/layouts/Layout.astro`. The `phc_*` project key is a public client token and is safe to commit.
+
+## License
+
+MIT — see [LICENSE](./LICENSE).
